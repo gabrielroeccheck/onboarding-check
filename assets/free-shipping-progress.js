@@ -1,10 +1,25 @@
+/**
+ * =============================================================================
+ * BARRA DE FRETE GRÁTIS — free-shipping-progress.js
+ * =============================================================================
+ * O primeiro desenho da barra vem do Liquid (free-shipping-progress.liquid). Quando
+ * o cliente muda quantidades ou aplica cupom, o carrinho muda sem recarregar a página;
+ * este arquivo escuta os MESMOS eventos globais que o Horizon já dispara (cart:update,
+ * discount:update) e recalcula texto + largura da barra.
+ *
+ * Por que existe formatMoney: no servidor o Liquid usa o filtro | money; no navegador
+ * precisamos repetir a formatação com os dados que vêm no JSON do carrinho.
+ *
+ * syncFreeShippingProgressFromCart: “válvula de escape” se algum script seu atualizar
+ * o carrinho sem disparar os eventos do tema — pode importar e chamar manualmente.
+ * =============================================================================
+ */
+
 import { ThemeEvents } from '@theme/events';
 import { formatMoney } from '@theme/money-formatting';
 
 /**
- * Sincroniza todas as barras com um objeto carrinho (ex.: resposta de `cart.js` ou evento do tema).
- * Use quando um fluxo Ajax customizado não disparar `cart:update` / `discount:update`.
- *
+ * Atualiza todas as barras <free-shipping-progress> com um objeto carrinho (ex. cart.js).
  * @param {{ items_subtotal_price?: number; items?: unknown[] }} cart
  */
 export function syncFreeShippingProgressFromCart(cart) {

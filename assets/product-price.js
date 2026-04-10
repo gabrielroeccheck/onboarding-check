@@ -5,6 +5,7 @@ import { Component } from '@theme/component';
  * @typedef {Object} ProductPriceRefs
  * @property {HTMLElement} priceContainer
  * @property {HTMLElement} [volumePricingNote]
+ * @property {HTMLElement} [installmentsDisplay] — snippet installments-display.liquid (opcional)
  */
 
 /**
@@ -42,7 +43,7 @@ class ProductPrice extends Component {
       return;
     }
 
-    const { priceContainer, volumePricingNote } = this.refs;
+    const { priceContainer, volumePricingNote, installmentsDisplay } = this.refs;
     // Find the new product-price element in the updated HTML
     const newProductPrice = event.detail.data.html.querySelector(
       `product-price[data-block-id="${this.dataset.blockId}"]`
@@ -65,6 +66,17 @@ class ProductPrice extends Component {
       newPrice?.insertAdjacentElement('afterend', /** @type {Element} */ (newNote.cloneNode(true)));
     } else {
       volumePricingNote.replaceWith(newNote);
+    }
+
+    const newInstallments = newProductPrice.querySelector('[ref="installmentsDisplay"]');
+    if (newInstallments && installmentsDisplay) {
+      installmentsDisplay.replaceWith(newInstallments);
+    } else if (installmentsDisplay && !newInstallments) {
+      installmentsDisplay.remove();
+    } else if (newInstallments && !installmentsDisplay) {
+      const anchor =
+        this.querySelector('[ref="volumePricingNote"]') ?? this.querySelector('[ref="priceContainer"]');
+      anchor?.insertAdjacentElement('afterend', /** @type {Element} */ (newInstallments.cloneNode(true)));
     }
   };
 }

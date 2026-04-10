@@ -1758,6 +1758,35 @@
       },
       {
         "type": "checkbox",
+        "id": "show_merchant_installments",
+        "label": "t:settings.show_merchant_installments",
+        "info": "t:info.show_merchant_installments",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "installments_max",
+        "label": "t:settings.installments_max",
+        "default": 12,
+        "visible_if": "{{ settings.show_merchant_installments }}"
+      },
+      {
+        "type": "number",
+        "id": "installments_min_per_payment",
+        "label": "t:settings.installments_min_per_payment",
+        "info": "t:info.installments_min_per_payment",
+        "default": 50,
+        "visible_if": "{{ settings.show_merchant_installments }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "installments_show_disclaimer",
+        "label": "t:settings.installments_show_disclaimer",
+        "default": true,
+        "visible_if": "{{ settings.show_merchant_installments }}"
+      },
+      {
+        "type": "checkbox",
         "id": "show_installments",
         "label": "t:settings.installments",
         "default": true

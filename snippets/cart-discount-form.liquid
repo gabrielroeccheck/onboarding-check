@@ -5,6 +5,32 @@
   @param {string} section_id - ID da section para Section Rendering API (obrigatório para morph sem reload).
 {%- enddoc -%}
 
+{% comment %}
+  =============================================================================
+  CUPOM NO CARRINHO (para leigos)
+  =============================================================================
+  O que é: campo para o cliente digitar um código de desconto (cupom) que a loja
+  criou no Admin da Shopify (Descontos). Não precisa de app.
+
+  Como funciona:
+  1) Este arquivo só desenha o HTML (campo, botões, mensagens). O “cérebro” está
+     em assets/cart-discount.js (envia o código para a Shopify via internet).
+  2) A Shopify valida o cupom e devolve o carrinho atualizado. O tema pede também
+     um pedaço de HTML da section (Section Rendering) para atualizar totais na tela
+     sem recarregar a página inteira.
+  3) Por isso precisamos do section_id: a Shopify sabe qual bloco da página redesenhar.
+
+  Por que cupons aparecem em duas listas no Liquid:
+  - Descontos só no total do carrinho vêm de cart_level_discount_applications.
+  - Às vezes o código também aparece ligado a linhas; por isso o loop nos itens.
+
+  IDs únicos (cart-discount-input-…): no drawer e na página do carrinho existem
+  dois formulários possíveis; IDs repetidos quebrariam acessibilidade (label x input).
+
+  on:submit e on:click: sintaxe do Horizon que liga o clique ao método do componente
+  cart-discount-component definido no JS.
+{%- endcomment %}
+
 {% liquid
   assign discount_codes = cart.cart_level_discount_applications | where: 'type', 'discount_code' | map: 'title'
   for item in cart.items
@@ -83,7 +109,10 @@
             </form>
           </div>
 
-          {%- comment -%} aria-live: sucesso (polite) separado do erro (assertive) {%- endcomment -%}
+          {% comment %}
+            aria-live: leitores de tela anunciam mudanças sem o usuário focar no texto.
+            polite = espera uma pausa; assertive = erro mais urgente.
+          {% endcomment %}
           <div
             class="cart-discount__success cart-primary-typography hidden"
             ref="cartDiscountSuccess"

@@ -219,7 +219,10 @@
     "custom_liquid": "Add app snippets or other code to create advanced customizations. [Learn more](https://shopify.dev/docs/api/liquid)",
     "edit_presets_in_theme_settings": "Edit presets in [theme settings](/editor?context=theme&category=typography)",
     "enable_filtering_info": "Customize filters with the [Search & Discovery app](https://help.shopify.com/manual/online-store/search-and-discovery/filters)",
+    // Texto de ajuda no editor do tema: explica o número e que 0 desliga a barra (sem comentários no settings_schema.json puro).
     "free_shipping_minimum": "Whole amount in your store currency, without decimals (e.g. 199 for $199.00 or R$199). Compared to cart items subtotal. Use 0 to hide the bar. For zero-decimal currencies (e.g. JPY), adjust the theme or enter values ×100 as needed.",
+    "show_merchant_installments": "Shows a calculated installment line on product prices and cart (display only; not linked to payment gateways).",
+    "installments_min_per_payment": "Whole amount without decimals (e.g. 50 = $50.00 per installment minimum). Used with product/cart price to compute how many installments fit.",
     "grid_layout_on_mobile": "Grid layout is used for mobile",
     "hide_logo_on_home_page_help": "Logo will remain visible when sticky header is active",
     "hover_effects": "Applies to product and collection cards",
@@ -918,6 +921,10 @@
     "inverse": "Inverse",
     "inverse_logo": "Inverse logo",
     "installments": "Installments",
+    "show_merchant_installments": "Custom installment message (store rules)",
+    "installments_max": "Maximum installments to advertise",
+    "installments_min_per_payment": "Minimum installment amount (whole currency units)",
+    "installments_show_disclaimer": "Show “informational only” note on product price",
     // Checkbox to embed submit button inside email input field
     "integrated_button": "Integrated button",
     "items_to_show": "Items to show",
@@ -1068,6 +1075,7 @@
     "section_width": "Section width",
     "seller_note": "Allow note to seller",
     "seller_note_open_by_default": "Open note to seller by default",
+    // Valor mínimo (moeda inteira) para a barra “falta X para frete grátis” no carrinho/drawer — ver snippets/free-shipping-progress.liquid
     "free_shipping_minimum": "Free shipping progress bar — minimum subtotal",
     "shadow_color": "Shadow",
     "shadow_opacity": "Shadow opacity",

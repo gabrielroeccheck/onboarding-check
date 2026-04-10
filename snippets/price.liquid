@@ -5,6 +5,7 @@
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
+  @param {boolean} [hide_merchant_installments] - Se true, não renderiza a linha de parcelas da loja (ex.: sticky add to cart).
 {%- enddoc -%}
 
 {%- liquid
@@ -35,16 +36,22 @@
     assign is_product_card = true
   endif
 
+  assign installments_base_cents = selected_variant.price
+
   if is_product_card
     assign price_min = product_resource.price_min
     assign price_max = product_resource.price_max
     assign has_volume_pricing = product_resource.quantity_price_breaks_configured? | default: false
+    if product_resource.quantity_price_breaks_configured?
+      assign installments_base_cents = product_resource.price_min
+    endif
   else
     # Product page: only use selected variant's pricing
     if selected_variant.quantity_price_breaks.size > 0
       assign has_volume_pricing = true
       assign price_min = selected_variant.quantity_price_breaks.last.price
       assign price_max = selected_variant.price
+      assign installments_base_cents = selected_variant.quantity_price_breaks.last.price
     endif
   endif
 
@@ -124,3 +131,14 @@
 {%- if has_volume_pricing -%}
   <small ref="volumePricingNote" class="volume-pricing-note">{{ 'content.volume_pricing_available' | t }}</small>
 {%- endif -%}
+{% comment %}
+  Parcelamento informativo (tema): cards, PDP e vitrines que usam este snippet.
+  ref installmentsDisplay é sincronizado em product-price.js ao mudar variante.
+{% endcomment %}
+{% if settings.show_merchant_installments and product_resource and hide_merchant_installments != true %}
+  {% render 'installments-display',
+    price_cents: installments_base_cents,
+    variant: selected_variant,
+    context: 'product'
+  %}
+{% endif %}

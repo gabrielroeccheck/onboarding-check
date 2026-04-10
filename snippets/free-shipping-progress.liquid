@@ -5,6 +5,31 @@
   @param {string} [section_suffix] - ID único para aria (ex.: `section_id` do `cart-summary`).
 {%- enddoc -%}
 
+{% comment %}
+  =============================================================================
+  BARRA “FALTA X PARA FRETE GRÁTIS” (para leigos)
+  =============================================================================
+  O que é: feedback visual para o cliente saber quanto falta no carrinho (em valor)
+  para atingir uma meta que VOCÊ definiu no editor do tema. Não calcula frete real
+  da Shopify — é só uma meta de subtotal para motivar compra.
+
+  Onde configura: Personalizar tema → configurações → Cart features → campo numérico
+  “free_shipping_minimum” (definido em config/settings_schema.json; arquivos JSON
+  de schema não aceitam comentários dentro do objeto).
+
+  Por que multiplicamos por 100: valores de preço na Shopify costumam ser em “centavos”
+  (menor unidade da moeda). Se você digita 199 no tema, viram 19900 centavos = R$199,00.
+
+  Por que remaining_money separado: NUNCA faça | t: amount: X | money no mesmo fio —
+  o | money aplicaria na frase inteira e virava R$ 0,00. Primeiro formatamos o valor,
+  depois injetamos na tradução com t: amount: remaining_money.
+
+  O elemento <free-shipping-progress>: o JS free-shipping-progress.js escuta mudanças
+  no carrinho (eventos do Horizon) para atualizar texto e barra sem recarregar.
+
+  data-template-* com __REPLACE__: o JS troca pelo valor formatado no cliente.
+{%- endcomment %}
+
 {%- assign fs_uid = section_suffix | default: 'cart' | replace: ' ', '-' -%}
 {%- assign fs_major = settings.free_shipping_minimum | default: 0 | plus: 0 -%}
 
@@ -33,6 +58,7 @@
       assign money_format_for_bar = shop.money_format
     endif
 
+    # remaining_money: centavos → texto tipo "R$ 50,00" antes do | t (nunca | money depois do | t)
     assign remaining_money = remaining_cents | money
   -%}
 <free-shipping-progress
@@ -74,6 +100,7 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* Trilha = fundo; preenchimento = progresso (largura via CSS var vinda do Liquid/JS) */
   .free-shipping-progress {
     width: 100%;
     margin-block-end: var(--gap-md);

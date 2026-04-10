@@ -64,7 +64,7 @@
     "added": "Added",
     // Button to apply discount code to cart
     "apply": "Apply",
-    // Remove every discount code from the cart at once
+    // Botão “remover todos”: usado no snippet cart-discount-form.liquid (cupom no carrinho)
     "remove_all_discounts": "Remove all discounts",
     "back": "Back",
     "choose": "Choose",
@@ -168,10 +168,15 @@
     "discount_code": "Discount code",
     "shipping_discount_error": "Shipping discounts are shown at checkout after adding an address",
     "discount_code_error": "Discount code cannot be applied to your cart",
+    // Mensagem de sucesso do cupom; [code] é trocado no JS (cart-discount.js)
     "discount_code_applied_success": "\"[code]\" was applied to your cart.",
     "discounts": "Discounts",
+    // Barra de frete grátis: {{ amount }} recebe texto já formatado (| money no Liquid ou JS)
     "free_shipping_remaining": "{{ amount }} left to unlock free shipping!",
     "free_shipping_qualified": "Congrats! You've unlocked free shipping!",
+    "installments_display_text": "Up to {{ count }}x of {{ amount }} interest-free",
+    "installments_display_template_js": "Up to [count]x of [amount] interest-free",
+    "installments_display_disclaimer": "For reference only. Checkout terms may vary.",
     "duties_and_taxes_included": "Duties and taxes included.",
     "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
     "duties_and_taxes_included_shipping_at_checkout_with_policy_without_discounts_html": "Duties and taxes included. Shipping is calculated at checkout.",
