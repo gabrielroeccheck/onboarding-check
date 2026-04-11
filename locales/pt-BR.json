@@ -137,6 +137,8 @@
     "installments_display_text": "Em até {{ count }}x de {{ amount }} sem juros",
     "installments_display_template_js": "Em até [count]x de [amount] sem juros",
     "installments_display_disclaimer": "Valor informativo; condições finais no checkout.",
+    "video_with_text_editor_empty": "Escolha um vídeo na Shopify ou informe uma URL válida do YouTube/Vimeo. Esta mensagem só aparece no editor do tema.",
+    "pix_price_line": "{{ amount }} no PIX (economia de {{ percent }}%)",
     "discount": "Desconto",
     "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Tributos de importação e outros tributos incluídos. Descontos e <a href=\"{{ link }}\">frete</a> calculados no checkout.",
     "duties_and_taxes_included_shipping_at_checkout_without_policy": "Tributos de importação e outros tributos incluídos. Descontos e frete calculados no checkout.",

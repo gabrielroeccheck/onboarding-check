@@ -223,6 +223,8 @@
     "free_shipping_minimum": "Whole amount in your store currency, without decimals (e.g. 199 for $199.00 or R$199). Compared to cart items subtotal. Use 0 to hide the bar. For zero-decimal currencies (e.g. JPY), adjust the theme or enter values ×100 as needed.",
     "show_merchant_installments": "Shows a calculated installment line on product prices and cart (display only; not linked to payment gateways).",
     "installments_min_per_payment": "Whole amount without decimals (e.g. 50 = $50.00 per installment minimum). Used with product/cart price to compute how many installments fit.",
+    "pix_discount_percent": "Percentage off the current product price (display only). Use 0 to hide. Actual checkout depends on your payment setup.",
+    "video_external_alt": "Used as the iframe title for accessibility (external videos only).",
     "grid_layout_on_mobile": "Grid layout is used for mobile",
     "hide_logo_on_home_page_help": "Logo will remain visible when sticky header is active",
     "hover_effects": "Applies to product and collection cards",
@@ -349,6 +351,7 @@
     // Block name for image/video component
     "media": "Media",
     "media_with_text": "Media with text",
+    "video_and_text": "Video and text",
     "menu": "Menu",
     "mobile_layout": "Mobile layout",
     "multicolumn": "Multicolumn",
@@ -925,6 +928,11 @@
     "installments_max": "Maximum installments to advertise",
     "installments_min_per_payment": "Minimum installment amount (whole currency units)",
     "installments_show_disclaimer": "Show “informational only” note on product price",
+    "pix_discount_percent": "PIX payment discount (display only)",
+    "video_source": "Video source",
+    "video_source_shopify": "Shopify (Files)",
+    "video_source_external": "YouTube or Vimeo",
+    "video_url": "Video URL",
     // Checkbox to embed submit button inside email input field
     "integrated_button": "Integrated button",
     "items_to_show": "Items to show",

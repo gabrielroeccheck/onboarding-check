@@ -177,6 +177,7 @@
     "installments_display_text": "Up to {{ count }}x of {{ amount }} interest-free",
     "installments_display_template_js": "Up to [count]x of [amount] interest-free",
     "installments_display_disclaimer": "For reference only. Checkout terms may vary.",
+    "pix_price_line": "{{ amount }} with PIX (save {{ percent }}%)",
     "duties_and_taxes_included": "Duties and taxes included.",
     "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
     "duties_and_taxes_included_shipping_at_checkout_with_policy_without_discounts_html": "Duties and taxes included. Shipping is calculated at checkout.",
@@ -293,6 +294,7 @@
     "use_fewer_filters_html": "Try using fewer filters, or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all filters</a>.",
     // Link or button to expand additional information
     "view_more_details": "View more details",
+    "video_with_text_editor_empty": "Select a Shopify video or add a valid YouTube/Vimeo URL. This message is only visible in the theme editor.",
     "volume_pricing_available": "Volume pricing available",
     "volume_pricing": "Volume pricing",
     "at_price_each": "at {{ price }}/ea",

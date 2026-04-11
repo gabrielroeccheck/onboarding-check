@@ -6,6 +6,7 @@ import { Component } from '@theme/component';
  * @property {HTMLElement} priceContainer
  * @property {HTMLElement} [volumePricingNote]
  * @property {HTMLElement} [installmentsDisplay] — snippet installments-display.liquid (opcional)
+ * @property {HTMLElement} [pixPriceDisplay] — snippet pix-price-display.liquid (opcional)
  */
 
 /**
@@ -43,7 +44,7 @@ class ProductPrice extends Component {
       return;
     }
 
-    const { priceContainer, volumePricingNote, installmentsDisplay } = this.refs;
+    const { priceContainer, volumePricingNote, installmentsDisplay, pixPriceDisplay } = this.refs;
     // Find the new product-price element in the updated HTML
     const newProductPrice = event.detail.data.html.querySelector(
       `product-price[data-block-id="${this.dataset.blockId}"]`
@@ -77,6 +78,19 @@ class ProductPrice extends Component {
       const anchor =
         this.querySelector('[ref="volumePricingNote"]') ?? this.querySelector('[ref="priceContainer"]');
       anchor?.insertAdjacentElement('afterend', /** @type {Element} */ (newInstallments.cloneNode(true)));
+    }
+
+    const newPix = newProductPrice.querySelector('[ref="pixPriceDisplay"]');
+    if (newPix && pixPriceDisplay) {
+      pixPriceDisplay.replaceWith(newPix);
+    } else if (pixPriceDisplay && !newPix) {
+      pixPriceDisplay.remove();
+    } else if (newPix && !pixPriceDisplay) {
+      const anchor =
+        this.querySelector('[ref="installmentsDisplay"]') ??
+        this.querySelector('[ref="volumePricingNote"]') ??
+        this.querySelector('[ref="priceContainer"]');
+      anchor?.insertAdjacentElement('afterend', /** @type {Element} */ (newPix.cloneNode(true)));
     }
   };
 }

@@ -6,6 +6,7 @@
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
   @param {boolean} [hide_merchant_installments] - Se true, não renderiza a linha de parcelas da loja (ex.: sticky add to cart).
+  @param {boolean} [hide_pix_price] - Se true, não renderiza a linha de preço PIX (ex.: sticky add to cart).
 {%- enddoc -%}
 
 {%- liquid
@@ -140,5 +141,14 @@
     price_cents: installments_base_cents,
     variant: selected_variant,
     context: 'product'
+  %}
+{% endif %}
+{% comment %}
+  Preço PIX informativo: mesma base em centavos que parcelas; ref pixPriceDisplay em product-price.js.
+{% endcomment %}
+{% if settings.pix_discount_percent > 0 and product_resource and hide_pix_price != true %}
+  {% render 'pix-price-display',
+    price_cents: installments_base_cents,
+    variant: selected_variant
   %}
 {% endif %}

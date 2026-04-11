@@ -1786,6 +1786,17 @@
         "visible_if": "{{ settings.show_merchant_installments }}"
       },
       {
+        "type": "range",
+        "id": "pix_discount_percent",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "t:settings.pix_discount_percent",
+        "info": "t:info.pix_discount_percent",
+        "default": 5
+      },
+      {
         "type": "checkbox",
         "id": "show_installments",
         "label": "t:settings.installments",

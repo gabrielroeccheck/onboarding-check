@@ -45,6 +45,12 @@
         context: 'product'
       %}
     {% endif %}
+    {% if settings.pix_discount_percent > 0 %}
+      {% render 'pix-price-display',
+        price_cents: product.price_min,
+        variant: product.selected_or_first_available_variant
+      %}
+    {% endif %}
   {% else %}
     {% render 'price',
       show_unit_price: true,
