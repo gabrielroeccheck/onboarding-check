@@ -238,6 +238,7 @@
     "product_badge_sold_out": "Sold out",
     "product_badge_sale": "Sale",
     "product_badge_percent_off": "{{ percent }}% OFF",
+    "product_badge_off_word": "OFF",
     "product_card_placeholder": "Product title",
     "placeholder_image": "Placeholder image",
     "quantity": "Quantity",

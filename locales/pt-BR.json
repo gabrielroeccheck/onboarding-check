@@ -165,6 +165,7 @@
     "product_badge_sold_out": "Esgotado",
     "product_badge_sale": "Promoção",
     "product_badge_percent_off": "{{ percent }}% OFF",
+    "product_badge_off_word": "OFF",
     "search_input_label": "Pesquisa",
     "search_input_placeholder": "Pesquisa",
     "search_results": "Resultados da pesquisa",

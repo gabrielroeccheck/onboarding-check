@@ -1,7 +1,6 @@
 /**
  * Atualiza o texto "% OFF" nos cards quando o swatch troca a variante.
- * Na PDP a galeria é substituída por HTML novo (variant-picker + Section Rendering), logo não depende disto.
- * Escuta em fase de captura no product-card porque variantUpdate é stopPropagation.
+ * Mantém a estrutura visual (número / % / OFF) alinhada ao Liquid.
  */
 const VARIANT_UPDATE = 'variant:update';
 
@@ -36,6 +35,50 @@ class ProductDiscountBadge extends HTMLElement {
     this.#abort?.abort();
   }
 
+  /**
+   * @param {number} pct
+   * @param {string} srTemplate
+   */
+  #showPercentMode(pct, srTemplate) {
+    const sr = this.querySelector('[data-product-discount-sr]');
+    const valueEl = this.querySelector('[data-product-discount-value]');
+    const visual = this.querySelector('.product-discount-badge__visual');
+    const fallback = this.querySelector('[data-product-discount-fallback]');
+
+    const s = String(pct);
+    if (valueEl) valueEl.textContent = s;
+    if (sr) sr.textContent = srTemplate.replace('__NUM__', s);
+    visual?.removeAttribute('hidden');
+    fallback?.setAttribute('hidden', '');
+    if (fallback) fallback.textContent = '';
+  }
+
+  /**
+   * @param {string} label
+   */
+  #showSaleFallbackMode(label) {
+    const sr = this.querySelector('[data-product-discount-sr]');
+    const visual = this.querySelector('.product-discount-badge__visual');
+    const fallback = this.querySelector('[data-product-discount-fallback]');
+
+    if (sr) sr.textContent = label;
+    visual?.setAttribute('hidden', '');
+    if (fallback) {
+      fallback.textContent = label;
+      fallback.removeAttribute('hidden');
+    }
+  }
+
+  #clearModes() {
+    const visual = this.querySelector('.product-discount-badge__visual');
+    const fallback = this.querySelector('[data-product-discount-fallback]');
+    const sr = this.querySelector('[data-product-discount-sr]');
+    visual?.setAttribute('hidden', '');
+    fallback?.setAttribute('hidden', '');
+    if (fallback) fallback.textContent = '';
+    if (sr) sr.textContent = '';
+  }
+
   /** @param {Event} event */
   #onVariantUpdate = (event) => {
     const detail = /** @type {CustomEvent} */ (event).detail;
@@ -48,16 +91,16 @@ class ProductDiscountBadge extends HTMLElement {
     const productLevelSale = this.dataset.productLevelSale === 'true';
 
     if (pct != null && typeof tpl === 'string' && tpl.length) {
-      this.textContent = tpl.replace('__NUM__', String(pct));
+      this.#showPercentMode(pct, tpl);
       return;
     }
 
     if (productLevelSale && typeof saleFallback === 'string') {
-      this.textContent = saleFallback;
+      this.#showSaleFallbackMode(saleFallback);
       return;
     }
 
-    this.textContent = '';
+    this.#clearModes();
   };
 }
 
