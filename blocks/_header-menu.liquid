@@ -47,6 +47,7 @@
                 </a>
               </li>
             {% endfor %}
+            {% render 'customer-exclusive-nav-link', variant: 'navigation_bar' %}
           </ul>
         </div>
       </div>
@@ -131,6 +132,7 @@
           {%- endif -%}
         </li>
       {% endfor %}
+      {% render 'customer-exclusive-nav-link', variant: 'desktop' %}
       <li
         class="menu-list__list-item"
         role="presentation"

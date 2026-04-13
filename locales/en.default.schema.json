@@ -29,7 +29,8 @@
     "product_list": "Featured collection",
     "other_sections": "Other",
     "storytelling": "Storytelling",
-    "text": "Text"
+    "text": "Text",
+    "blog": "Blog"
   },
   "content": {
     "visible_if_collection_has_more_products": "Visible if collection has more products than shown",
@@ -58,6 +59,7 @@
     "content_width": "Content width only applies when the section width is set to full width.",
     "copyright": "Copyright",
     "customer_account": "Customer account",
+    "customer_exclusive_menu": "Shows one extra menu link for logged-in customers who have the tag you set. Compares tags case-insensitively (same as Shopify Admin).",
     "describe_the_video_for": "Describe the video for customers using screen readers. [Learn more](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#video-block)",
     "edit_empty_state_collection_in_theme_settings": "Edit empty state collection in [theme settings](/editor?context=theme&category=search)",
     "edit_logo_in_theme_settings": "Edit logo in [theme settings](/editor?context=theme&category=logo%20and%20favicon)",
@@ -217,6 +219,7 @@
     "checkout_buttons": "Allows buyers to check out faster and can improve conversion. [Learn more](https://help.shopify.com/manual/online-store/dynamic-checkout)",
     "custom_heading": "Custom heading",
     "custom_liquid": "Add app snippets or other code to create advanced customizations. [Learn more](https://shopify.dev/docs/api/liquid)",
+    "customer_exclusive_tag": "Must match a customer tag in Admin (Customers → customer → Tags). Example: funcionario",
     "edit_presets_in_theme_settings": "Edit presets in [theme settings](/editor?context=theme&category=typography)",
     "enable_filtering_info": "Customize filters with the [Search & Discovery app](https://help.shopify.com/manual/online-store/search-and-discovery/filters)",
     // Texto de ajuda no editor do tema: explica o número e que 0 desliga a barra (sem comentários no settings_schema.json puro).
@@ -296,6 +299,7 @@
     "content": "Content",
     "content_grid": "Content grid",
     "copyright": "Copyright",
+    "customer_exclusive_menu": "Customer exclusive menu",
     "count": "Count",
     "custom_section": "Custom section",
     "description": "Description",
@@ -352,6 +356,7 @@
     "media": "Media",
     "media_with_text": "Media with text",
     "video_and_text": "Video and text",
+    "article_related_products": "Blog: related products",
     "menu": "Menu",
     "mobile_layout": "Mobile layout",
     "multicolumn": "Multicolumn",
@@ -833,6 +838,9 @@
     "cover_image": "Cover image",
     "cover_image_size": "Cover image size",
     "currency_code": "Currency code",
+    "customer_exclusive_collection": "Exclusive collection",
+    "customer_exclusive_menu_label": "Menu link text",
+    "customer_exclusive_tag": "Customer tag (required to show the link)",
     "custom_height": "Custom height",
     "custom_minimum_height": "Custom minimum height",
     // Checkbox to enable separate size settings for mobile devices

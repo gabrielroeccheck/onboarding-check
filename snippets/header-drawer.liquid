@@ -241,6 +241,11 @@
                 {% endif %}
               </li>
             {%- endfor -%}
+            {% render 'customer-exclusive-nav-link',
+              variant: 'drawer',
+              block_settings: block.settings,
+              animation_index: animation_index | plus: 1
+            %}
           {% else %}
             {%- comment -%}
               Handle menus with 3 levels of links
@@ -555,6 +560,11 @@
                 {%- endif -%}
               </li>
             {%- endfor -%}
+            {% render 'customer-exclusive-nav-link',
+              variant: 'drawer',
+              block_settings: block.settings,
+              animation_index: animation_index | plus: 1
+            %}
           {% endif %}
         </ul>
       </nav>

@@ -1870,6 +1870,33 @@
     ]
   },
   {
+    "name": "t:names.customer_exclusive_menu",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:content.customer_exclusive_menu"
+      },
+      {
+        "type": "text",
+        "id": "customer_exclusive_tag",
+        "label": "t:settings.customer_exclusive_tag",
+        "info": "t:info.customer_exclusive_tag",
+        "default": "funcionario"
+      },
+      {
+        "type": "collection",
+        "id": "customer_exclusive_collection",
+        "label": "t:settings.customer_exclusive_collection"
+      },
+      {
+        "type": "text",
+        "id": "customer_exclusive_menu_label",
+        "label": "t:settings.customer_exclusive_menu_label",
+        "default": "Exclusive"
+      }
+    ]
+  },
+  {
     "name": "t:names.drawers",
     "settings": [
       {

@@ -144,6 +144,7 @@
     "collections_editorial": "Lista de coleções: Editorial",
     "collections_grid": "Lista de coleções: Grade",
     "copyright": "Direitos autorais",
+    "customer_exclusive_menu": "Menu exclusivo por tag de cliente",
     "count": "Contagem",
     "divider_section": "Divisor",
     "drawers": "Gavetas",
@@ -155,6 +156,7 @@
     "marquee_section": "Marca de seleção",
     "media_with_text": "Mídia com texto",
     "video_and_text": "Vídeo e texto",
+    "article_related_products": "Blog: produtos relacionados",
     "page": "Página",
     "page_content": "Conteúdo",
     "page_layout": "Layout da página",
@@ -337,6 +339,9 @@
     "corner_radius": "Raio do canto",
     "country_region": "País/região",
     "currency_code": "Código da moeda",
+    "customer_exclusive_collection": "Coleção exclusiva",
+    "customer_exclusive_menu_label": "Texto do link no menu",
+    "customer_exclusive_tag": "Tag do cliente (obrigatória para exibir o link)",
     "custom_height": "Altura personalizada",
     "custom_mobile_size": "Tamanho personalizado para celular",
     "desktop_height": "Altura no desktop",
@@ -946,6 +951,7 @@
     "colors": "Cores",
     "collection_page": "Página da coleção",
     "customer_account": "Conta de cliente",
+    "customer_exclusive_menu": "Exibe um link extra no menu para clientes logados que tenham a tag configurada. A comparação ignora maiúsculas/minúsculas (como no Admin da Shopify).",
     "edit_empty_state_collection_in_theme_settings": "Edite a coleção de estado vazio nas [configurações do tema](/editor?context=theme&category=search)",
     "grid_layout": "Layout em grade",
     "home_page": "Página inicial",
@@ -1107,6 +1113,7 @@
     "transparent_background": "Revise cada modelo em que o plano de fundo transparente é aplicado para garantir a legibilidade",
     "aspect_ratio_adjusted": "Ajustado em alguns layouts",
     "custom_liquid": "Adicione snippets de app ou outro código para criar personalizações avançadas. [Saiba mais](https://shopify.dev/docs/api/liquid)",
+    "customer_exclusive_tag": "Deve coincidir com uma tag do cliente no Admin (Clientes → cliente → Tags). Exemplo: funcionario",
     "pills_usage": "Usado para filtros aplicados, códigos de desconto e sugestões de pesquisa",
     "applies_on_image_only": "Aplica-se apenas a imagens",
     "hover_effects": "Aplica-se a cartões de produto e de coleção",
@@ -1132,6 +1139,7 @@
     "products": "Produtos",
     "other_sections": "Outros",
     "storytelling": "Narrativa",
-    "text": "Texto"
+    "text": "Texto",
+    "blog": "Blog"
   }
 }
