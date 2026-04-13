@@ -1,11 +1,3 @@
-{%- doc -%}
-  Etiquetas do card via lista de metaobjects no produto.
-  Metacampos suportados (primeiro preenchido vence):
-  - custom.custom_label (lista → teu setup “Custom Label”)
-  - custom.product_labels (lista → compatibilidade com versão anterior)
-  Campos no metaobject: title (texto); background_color / text_color como tipo Cor Shopify ou texto hex.
-{%- enddoc -%}
-
 {% liquid
   assign max = max_labels | default: settings.product_card_metaobject_labels_max | default: 3
   assign list_ref = product.metafields.custom.custom_label.value
@@ -29,11 +21,6 @@
       if label_title == blank
         continue
       endif
-
-      comment
-        Cores: tipo "color" no Admin → objeto com .rgb ("r g b") ou .value.rgb.
-        Alternativa: texto #hex ou hex sem #.
-      endcomment
 
       assign safe_bg = ''
       assign bg_src = mo.background_color

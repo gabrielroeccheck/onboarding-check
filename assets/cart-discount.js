@@ -1,36 +1,9 @@
-/**
- * =============================================================================
- * CUPOM NO CARRINHO — cart-discount.js (Horizon)
- * =============================================================================
- * Para que serve: quando o cliente aplica ou remove um código de desconto no
- * carrinho (drawer ou página), este script fala com a Shopify e atualiza a tela.
- *
- * Ideia geral (sem jargão):
- * - A loja “entende” cupons; o tema só coleta o texto e manda para a Shopify.
- * - A resposta diz se o cupom vale ou não. Não confiamos só no “deu 200 OK”:
- *   olhamos os dados (ex.: applicable) para não mentir para o cliente.
- * - Para não dar F5 na página, pedimos HTML atualizado de uma “section” e o tema
- *   troca só aquele pedaço (morphSection). Por isso o Liquid passa data-section-id.
- *
- * Por que Shopify.routes.root: em lojas com idioma/país no URL (/pt-br/…), o
- * endereço da API muda; root garante o caminho certo.
- *
- * AbortController: se o cliente clicar duas vezes rápido, cancelamos o pedido
- * antigo para não bagunçar estado e economizar rede.
- * =============================================================================
- */
-
 import { Component } from '@theme/component';
 import { morphSection } from '@theme/section-renderer';
 import { DiscountUpdateEvent } from '@theme/events';
 import { fetchConfig } from '@theme/utilities';
 import { cartPerformance } from '@theme/performance';
 
-/**
- * Monta a URL da Ajax Cart API (cart/update.js).
- * Prioriza window.Shopify.routes.root (Markets / prefixo de idioma na URL).
- * @returns {string}
- */
 function getCartUpdateJsUrl() {
   if (typeof window.Shopify !== 'undefined' && window.Shopify.routes?.root) {
     const root = window.Shopify.routes.root;
@@ -41,13 +14,6 @@ function getCartUpdateJsUrl() {
   return base.includes('.js') ? base : `${base}.js`;
 }
 
-/**
- * Mostra a mensagem de sucesso DEPOIS que o HTML da section foi trocado.
- * Motivo: após morphSection o componente antigo pode sumir; achamos o novo pelo ID da section.
- * @param {string} sectionId
- * @param {string} code
- * @param {string} template Texto vindo do Liquid com placeholder [code]
- */
 function flashDiscountSuccess(sectionId, code, template) {
   if (!sectionId || !code) return;
   const sectionEl = document.getElementById(`shopify-section-${sectionId}`);
@@ -59,19 +25,6 @@ function flashDiscountSuccess(sectionId, code, template) {
   successEl.classList.remove('hidden');
 }
 
-/**
- * @typedef {Object} CartDiscountComponentRefs
- * @property {HTMLElement} cartDiscountError
- * @property {HTMLElement} cartDiscountErrorDiscountCode
- * @property {HTMLElement} cartDiscountErrorShipping
- * @property {HTMLElement} cartDiscountSuccess
- */
-
-/**
- * Web component <cart-discount-component>: une o markup do snippet cart-discount-form.liquid
- * às ações apply / remove / removeAll.
- * @extends {Component<CartDiscountComponentRefs>}
- */
 class CartDiscount extends Component {
   requiredRefs = [
     'cartDiscountError',
@@ -80,7 +33,6 @@ class CartDiscount extends Component {
     'cartDiscountSuccess',
   ];
 
-  /** @type {AbortController | null} */
   #activeFetch = null;
 
   #createAbortController() {
@@ -92,7 +44,6 @@ class CartDiscount extends Component {
     return abortController;
   }
 
-  /** Desabilita controles e sinaliza busy para leitores de tela. */
   #setLoading(on) {
     this.classList.toggle('cart-discount--loading', on);
     this.setAttribute('aria-busy', on ? 'true' : 'false');
@@ -109,7 +60,6 @@ class CartDiscount extends Component {
     }
   }
 
-  /** Limpa feedback visual antes de nova tentativa. */
   #clearFeedback() {
     const { cartDiscountError, cartDiscountErrorDiscountCode, cartDiscountErrorShipping, cartDiscountSuccess } =
       this.refs;
@@ -120,9 +70,6 @@ class CartDiscount extends Component {
     cartDiscountSuccess.textContent = '';
   }
 
-  /**
-   * @param {SubmitEvent} event
-   */
   applyDiscount = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -161,10 +108,8 @@ class CartDiscount extends Component {
 
       const data = await response.json();
 
-      // Shopify pode responder “ok” mesmo quando o cupom não entrou no carrinho.
-      // applicable === false = cupom inválido/expirado/regra não bate com o carrinho.
       if (
-        data.discount_codes?.find((/** @type {{ code: string; applicable: boolean; }} */ discount) => {
+        data.discount_codes?.find((discount) => {
           return discount.code === discountCodeValue && discount.applicable === false;
         })
       ) {
@@ -181,12 +126,10 @@ class CartDiscount extends Component {
         const codesFromDom = Array.from(discountPills)
           .map((element) => (element instanceof HTMLLIElement ? element.dataset.discountCode : null))
           .filter(Boolean);
-        // Caso especial: cupom existe mas o desconto é só de frete no checkout —
-        // a lista de códigos na UI não muda; avisamos com a mensagem de “shipping”.
         if (
           codesFromDom.length === existingDiscounts.length &&
-          codesFromDom.every((/** @type {string} */ code) => existingDiscounts.includes(code)) &&
-          data.discount_codes?.find((/** @type {{ code: string; applicable: boolean; }} */ discount) => {
+          codesFromDom.every((code) => existingDiscounts.includes(code)) &&
+          data.discount_codes?.find((discount) => {
             return discount.code === discountCodeValue && discount.applicable === true;
           })
         ) {
@@ -208,10 +151,6 @@ class CartDiscount extends Component {
     }
   };
 
-  /**
-   * Remove um código (pílula). Mantém o contrato do tema: apenas clique de mouse.
-   * @param {MouseEvent | KeyboardEvent} event
-   */
   removeDiscount = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -266,10 +205,6 @@ class CartDiscount extends Component {
     }
   };
 
-  /**
-   * Remove todos os códigos de uma vez (`discount: ''`).
-   * @param {MouseEvent} event
-   */
   removeAllDiscounts = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -305,9 +240,6 @@ class CartDiscount extends Component {
     }
   };
 
-  /**
-   * @param {'discount_code' | 'shipping'} type
-   */
   #handleDiscountError(type) {
     const { cartDiscountError, cartDiscountErrorDiscountCode, cartDiscountErrorShipping } = this.refs;
     const target = type === 'discount_code' ? cartDiscountErrorDiscountCode : cartDiscountErrorShipping;
@@ -315,11 +247,7 @@ class CartDiscount extends Component {
     target.classList.remove('hidden');
   }
 
-  /**
-   * @returns {string[]}
-   */
   #existingDiscounts() {
-    /** @type {string[]} */
     const discountCodes = [];
     const discountPills = this.querySelectorAll('.cart-discount__pill');
     for (const pill of discountPills) {

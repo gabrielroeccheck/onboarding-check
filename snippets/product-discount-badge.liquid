@@ -1,12 +1,3 @@
-{%- doc -%}
-  Etiqueta de promoção com % OFF (variante), reutilizável no card e na PDP.
-  @param {object} product
-  @param {object} [variant] - default: selected_or_first_available_variant
-  @param {string} [context] - 'card' | 'pdp'
-  @param {string} sale_color_scheme - valor de settings.badge_sale_color_scheme
-  @param {boolean} [badge_strip] - true: envolve em .product-badges (galeria PDP)
-{%- enddoc -%}
-
 {% liquid
   assign v = variant | default: product.selected_or_first_available_variant
   assign cap = v.compare_at_price
@@ -82,7 +73,6 @@
 {% endif %}
 
 {% stylesheet %}
-  /* Badge % OFF: destaque tipográfico + leve profundidade (respeita color scheme do tema) */
   .product-badges__badge:has(.product-discount-badge__visual),
   .media-gallery__product-badges .product-badges__badge:has(.product-discount-badge__visual) {
     position: relative;

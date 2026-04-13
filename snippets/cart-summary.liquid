@@ -1,31 +1,9 @@
-{%- doc -%}
-  Resumo do carrinho (totais, cupom, nota, checkout).
-
-  @param {string} [accelerated_checkout_buttons_layout] - { 'vertical' } Forced layout of the additional checkout buttons, instead of relying on platform's layout.
-  @param {string} [section_id] - The section ID for cart discount component.
-  @param {boolean} [render_free_shipping] - When false, omite a barra (ex.: drawer renderiza no header-actions).
-{%- enddoc -%}
-
-{% comment %}
-  INTEGRAÇÕES CUSTOMIZADAS NESTE ARQUIVO (resumo para leigos):
-  1) Barra de frete grátis — snippet free-shipping-progress.liquid no topo dos totais
-     na PÁGINA do carrinho. No drawer ela foi movida para header-actions (abaixo do
-     título) para não duplicar; por isso render_free_shipping: false lá.
-  2) Cupom — snippet cart-discount-form.liquid (lógica Ajax em cart-discount.js).
-  3) Estilos .cart-discount__* extras (toolbar, sucesso, loading) ficam neste stylesheet.
-{%- endcomment %}
-
 <div class="cart-totals">
-  {% comment %}
-    Frete grátis: só se o comerciante definiu um mínimo > 0 nas configurações do tema
-    e há itens. section_suffix evita IDs duplicados quando há dois resumos na página.
-  {% endcomment %}
   {% unless render_free_shipping == false %}
     {% if settings.free_shipping_minimum > 0 and cart.item_count > 0 %}
       {% render 'free-shipping-progress', section_suffix: section_id %}
     {% endif %}
   {% endunless %}
-  {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart-totals__original-container cart-primary-typography">
     {%- if cart.cart_level_discount_applications.size > 0 -%}
       <span class="cart-totals__item cart-totals__original">
@@ -111,7 +89,6 @@
       {% if settings.show_cart_note and settings.show_add_discount_code %}
         <div class="cart-actions__divider"></div>
       {% endif %}
-      {% comment %} Cupom: formulário modular + cart-discount.js (POST cart/update.js). {% endcomment %}
       {% if settings.show_add_discount_code %}
         {% render 'cart-discount-form', section_id: section_id %}
       {% endif %}
@@ -136,7 +113,6 @@
         ref="cartTotal"
         value="{{ total_price | strip_html }}"
         class="cart-totals__total-value cart-secondary-typography"
-        {% comment %} Used by payment_terms web component {% endcomment %}
         data-testid="cart-total-value"
         data-cart-subtotal
       >
@@ -150,9 +126,6 @@
         {% endform %}
       </span>
     {% endif %}
-    {% comment %}
-      Parcelas “da loja” (texto configurável); total atualizado via installments-display.js nos eventos do carrinho.
-    {% endcomment %}
     {% if settings.show_merchant_installments and cart.item_count > 0 %}
       <div class="cart-totals__item cart-totals__merchant-installments">
         {% render 'installments-display', price_cents: cart.total_price, context: 'cart' %}
@@ -494,7 +467,6 @@
     margin-block-start: var(--margin-3xs);
   }
 
-  /* Cupom: “Remover todos” + mensagem de sucesso + estado de carregamento (evita duplo clique) */
   .cart-discount__toolbar {
     padding-block: 0 var(--padding-sm);
   }

@@ -118,10 +118,6 @@
   type="module"
   fetchpriority="low"
 ></script>
-{% comment %}
-  Cupom: só carrega se a loja ligou “permitir descontos no carrinho” nas configurações.
-  O script define o componente <cart-discount-component> usado em cart-discount-form.liquid.
-{% endcomment %}
 {% if settings.show_add_discount_code %}
   <script
     src="{{ 'cart-discount.js' | asset_url }}"
@@ -129,10 +125,6 @@
     fetchpriority="low"
   ></script>
 {% endif %}
-{% comment %}
-  Frete grátis: só carrega se free_shipping_minimum > 0 (campo em config/settings_schema.json;
-  JSON puro não permite comentários — a documentação “humana” está nos snippets/JS).
-{% endcomment %}
 {% if settings.free_shipping_minimum > 0 %}
   <script
     src="{{ 'free-shipping-progress.js' | asset_url }}"

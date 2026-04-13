@@ -1,12 +1,3 @@
-{%- doc -%}
-  Camada de vídeo da section "Vídeo e texto" (Shopify Files ou YouTube/Vimeo via setting nativo).
-
-  O setting `video_url` expõe um VideoUrlDrop: os filtros `external_video_url` / encadeamento com
-  `external_video_tag` só aceitam mídia `external_video`, não esse drop — embed YouTube/Vimeo usa `id` + `type`.
-
-  @param {object} section - Section pai (video-and-text).
-{%- enddoc -%}
-
 {%- liquid
   assign src = section.settings.video_source | default: 'shopify'
   assign has_valid = false
@@ -112,7 +103,6 @@
 </div>
 
 {% stylesheet %}
-  /* Área da mídia: centraliza o “card” do vídeo na coluna */
   .video-and-text__frame {
     width: 100%;
     height: 100%;
@@ -124,7 +114,6 @@
     box-sizing: border-box;
   }
 
-  /* Bloco visual moderno: 16:9, borda suave, sombra, largura máxima */
   .video-and-text__viewport {
     --vtt-radius: max(var(--border-radius, 0.5rem), 0.75rem);
     position: relative;

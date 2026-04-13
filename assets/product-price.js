@@ -1,23 +1,6 @@
 import { ThemeEvents, VariantUpdateEvent } from '@theme/events';
 import { Component } from '@theme/component';
 
-/**
- * @typedef {Object} ProductPriceRefs
- * @property {HTMLElement} priceContainer
- * @property {HTMLElement} [volumePricingNote]
- * @property {HTMLElement} [installmentsDisplay] — snippet installments-display.liquid (opcional)
- * @property {HTMLElement} [pixPriceDisplay] — snippet pix-price-display.liquid (opcional)
- */
-
-/**
- * A custom element that displays a product price.
- * This component listens for variant update events and updates the price display accordingly.
- * It handles price updates from two different sources:
- * 1. Variant picker (in quick add modal or product page)
- * 2. Swatches variant picker (in product cards)
- *
- * @extends {Component<ProductPriceRefs>}
- */
 class ProductPrice extends Component {
   connectedCallback() {
     super.connectedCallback();
@@ -33,10 +16,6 @@ class ProductPrice extends Component {
     closestSection.removeEventListener(ThemeEvents.variantUpdate, this.updatePrice);
   }
 
-  /**
-   * Updates the price and volume pricing note.
-   * @param {VariantUpdateEvent} event - The variant update event.
-   */
   updatePrice = (event) => {
     if (event.detail.data.newProduct) {
       this.dataset.productId = event.detail.data.newProduct.id;
@@ -45,26 +24,22 @@ class ProductPrice extends Component {
     }
 
     const { priceContainer, volumePricingNote, installmentsDisplay, pixPriceDisplay } = this.refs;
-    // Find the new product-price element in the updated HTML
     const newProductPrice = event.detail.data.html.querySelector(
       `product-price[data-block-id="${this.dataset.blockId}"]`
     );
     if (!newProductPrice) return;
 
-    // Update price container
     const newPrice = newProductPrice.querySelector('[ref="priceContainer"]');
     if (newPrice && priceContainer) {
       priceContainer.replaceWith(newPrice);
     }
 
-    // Update volume pricing note
     const newNote = newProductPrice.querySelector('[ref="volumePricingNote"]');
 
     if (!newNote) {
       volumePricingNote?.remove();
     } else if (!volumePricingNote) {
-      // Use newPrice since priceContainer was just replaced and now points to the detached element
-      newPrice?.insertAdjacentElement('afterend', /** @type {Element} */ (newNote.cloneNode(true)));
+      newPrice?.insertAdjacentElement('afterend', newNote.cloneNode(true));
     } else {
       volumePricingNote.replaceWith(newNote);
     }
@@ -77,7 +52,7 @@ class ProductPrice extends Component {
     } else if (newInstallments && !installmentsDisplay) {
       const anchor =
         this.querySelector('[ref="volumePricingNote"]') ?? this.querySelector('[ref="priceContainer"]');
-      anchor?.insertAdjacentElement('afterend', /** @type {Element} */ (newInstallments.cloneNode(true)));
+      anchor?.insertAdjacentElement('afterend', newInstallments.cloneNode(true));
     }
 
     const newPix = newProductPrice.querySelector('[ref="pixPriceDisplay"]');
@@ -90,7 +65,7 @@ class ProductPrice extends Component {
         this.querySelector('[ref="installmentsDisplay"]') ??
         this.querySelector('[ref="volumePricingNote"]') ??
         this.querySelector('[ref="priceContainer"]');
-      anchor?.insertAdjacentElement('afterend', /** @type {Element} */ (newPix.cloneNode(true)));
+      anchor?.insertAdjacentElement('afterend', newPix.cloneNode(true));
     }
   };
 }

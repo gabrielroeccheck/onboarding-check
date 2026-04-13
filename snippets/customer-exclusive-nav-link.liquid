@@ -1,11 +1,3 @@
-{%- doc -%}
-  Item extra de menu para clientes logados com tag configurada (tema Horizon).
-
-  @param {string} variant - 'desktop' | 'navigation_bar' | 'drawer'
-  @param {object} [block_settings] - block.settings (obrigatório se variant == 'drawer')
-  @param {number} [animation_index] - índice de animação do drawer (após o último link do nível principal)
-{%- enddoc -%}
-
 {% liquid
   assign show_exclusive = false
   assign exclusive_coll = settings.customer_exclusive_collection

@@ -111,7 +111,6 @@
     "enter_password": "Insira a senha",
     "view_store_information": "Ver as informações da loja",
     "apply": "Aplicar",
-    // Texto do botão “Remover todos os descontos” no formulário de cupom (cart-discount-form.liquid)
     "remove_all_discounts": "Remover todos os descontos",
     "sign_in_options": "Outras opções de login",
     "sign_up": "Criar conta",
@@ -131,7 +130,6 @@
     "seller_note": "Instruções especiais",
     "cart_subtotal": "Subtotal",
     "discounts": "Descontos",
-    // Barra de frete grátis: {{ amount }} = valor formatado (ex. R$ 50,00), ver free-shipping-progress.liquid
     "free_shipping_remaining": "Faltam {{ amount }} para você ganhar frete grátis!",
     "free_shipping_qualified": "Parabéns! Você ganhou frete grátis!",
     "installments_display_text": "Em até {{ count }}x de {{ amount }} sem juros",
@@ -244,7 +242,6 @@
     "store_owner_link_html": "Você é titular da loja? <a href=\"{{ link }}\">Faça login aqui</a>",
     "shipping_discount_error": "Os descontos no frete são exibidos no checkout após a adição de um endereço.",
     "discount_code_error": "O código de desconto não pode ser aplicado ao seu carrinho.",
-    // Cupom: [code] substituído em cart-discount.js após aplicar
     "discount_code_applied_success": "\"[code]\" foi aplicado ao seu carrinho.",
     "shipping_policy": "Frete calculado no checkout.",
     "recipient_form_send_to": "Enviar para",

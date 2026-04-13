@@ -1,14 +1,5 @@
-/**
- * Atualiza o texto "% OFF" nos cards quando o swatch troca a variante.
- * Mantém a estrutura visual (número / % / OFF) alinhada ao Liquid.
- */
 const VARIANT_UPDATE = 'variant:update';
 
-/**
- * @param {number | string | null | undefined} compareAt
- * @param {number | string | null | undefined} price
- * @returns {number | null}
- */
 function percentOff(compareAt, price) {
   const cap = Number(compareAt);
   const pr = Number(price);
@@ -18,7 +9,6 @@ function percentOff(compareAt, price) {
 }
 
 class ProductDiscountBadge extends HTMLElement {
-  /** @type {AbortController | undefined} */
   #abort;
 
   connectedCallback() {
@@ -35,10 +25,6 @@ class ProductDiscountBadge extends HTMLElement {
     this.#abort?.abort();
   }
 
-  /**
-   * @param {number} pct
-   * @param {string} srTemplate
-   */
   #showPercentMode(pct, srTemplate) {
     const sr = this.querySelector('[data-product-discount-sr]');
     const valueEl = this.querySelector('[data-product-discount-value]');
@@ -53,9 +39,6 @@ class ProductDiscountBadge extends HTMLElement {
     if (fallback) fallback.textContent = '';
   }
 
-  /**
-   * @param {string} label
-   */
   #showSaleFallbackMode(label) {
     const sr = this.querySelector('[data-product-discount-sr]');
     const visual = this.querySelector('.product-discount-badge__visual');
@@ -79,9 +62,8 @@ class ProductDiscountBadge extends HTMLElement {
     if (sr) sr.textContent = '';
   }
 
-  /** @param {Event} event */
   #onVariantUpdate = (event) => {
-    const detail = /** @type {CustomEvent} */ (event).detail;
+    const detail = event.detail;
     const resource = detail?.resource;
     if (!resource) return;
 

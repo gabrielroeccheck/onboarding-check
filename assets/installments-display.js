@@ -1,10 +1,6 @@
 import { ThemeEvents } from '@theme/events';
 import { formatMoney } from '@theme/money-formatting';
 
-/**
- * Mesma regra do Liquid (installments-display.liquid): maior n possível respeitando
- * teto de parcelas e piso por parcela; só retorna se n >= 2.
- */
 export function computeInstallments(priceCents, maxInstallments, minCentsPerPayment) {
   if (!Number.isFinite(priceCents) || priceCents <= 0) return null;
   if (!Number.isFinite(maxInstallments) || maxInstallments < 2) return null;
@@ -19,11 +15,7 @@ export function computeInstallments(priceCents, maxInstallments, minCentsPerPaym
   return { n, perCents };
 }
 
-/**
- * Atualiza o texto do carrinho quando o total muda (Ajax) sem depender de morph da section.
- */
 class InstallmentsDisplayDynamic extends HTMLElement {
-  /** @type {AbortController | undefined} */
   #abort;
 
   connectedCallback() {
@@ -40,7 +32,7 @@ class InstallmentsDisplayDynamic extends HTMLElement {
     this.#abort = undefined;
   }
 
-  #sync = (/** @type {CustomEvent} */ event) => {
+  #sync = (event) => {
     const cart = event.detail?.resource;
     if (!cart || typeof cart.total_price !== 'number') return;
     this.dataset.priceCents = String(cart.total_price);

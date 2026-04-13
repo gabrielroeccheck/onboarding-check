@@ -155,11 +155,6 @@
             {%- if cart.empty? -%}
               {{ empty_cart_drawer_content }}
             {%- else -%}
-              {% comment %}
-                cart-drawer__top: grupo sticky (título + barra de frete grátis) para rolar
-                só a lista de produtos. A barra fica aqui de propósito — no resumo
-                (cart-summary) usamos render_free_shipping: false para não duplicar.
-              {% endcomment %}
               <div class="cart-drawer__top">
                 <div
                   class="cart-drawer__header"
@@ -185,7 +180,6 @@
                   </button>
                 </div>
 
-                {% comment %} Mesma barra do snippet free-shipping-progress; section.id = ID único aria/JS {% endcomment %}
                 {% if settings.free_shipping_minimum > 0 and cart.item_count > 0 %}
                   <div class="cart-drawer__free-shipping">
                     {% render 'free-shipping-progress', section_suffix: section.id %}
@@ -207,7 +201,6 @@
                 <div
                   class="cart-drawer__summary"
                 >
-                  {% comment %} render_free_shipping: false evita duas barras (já mostramos em cart-drawer__top) {% endcomment %}
                   {% render 'cart-summary', section_id: section.id, render_free_shipping: false %}
                 </div>
               </scroll-hint>

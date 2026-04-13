@@ -68,7 +68,6 @@
       grid-template-areas: 'margin-left media margin-right' 'margin-left content margin-right';
 
       @media screen and (min-width: 750px) {
-        /* Wide proportion is media 3.5 parts, content 2.5 parts. Which equals 7|5. So divide the central column by 7+5 and multiply accordingly */
         --media-with-content-grid-columns: var(--full-page-grid-margin)
           calc((var(--full-page-grid-central-column-width) / 12) * 7)
           calc((var(--full-page-grid-central-column-width) / 12) * 5) var(--full-page-grid-margin);
@@ -139,7 +138,6 @@
     }
   }
 
-  /* Keep the CSS specificity lower assuming that liquid won't assign this class with a full width section */
   .media-with-content.media-with-content--media-extend {
     grid-template-columns: var(--media-with-content-grid-columns);
     grid-template-areas: 'media media media' 'margin-left content margin-right';
@@ -170,7 +168,6 @@
     @media screen and (min-width: 750px) {
       --media-with-content-grid-columns: 3.5fr 2.5fr;
 
-      /* Default desktop layout is wide media, on the left, in full page section */
       grid-template-areas: 'media content';
     }
 
@@ -182,7 +179,6 @@
       grid-area: content;
     }
 
-    /* Inner blocks spacing */
     .media-with-content__content > .group-block-content {
       padding-inline: var(--page-margin);
       padding-block: calc(2 * var(--page-margin));
@@ -212,7 +208,6 @@
     min-height: 500px;
   }
 
-  /* Vitrine sem vídeo válido: coluna de mídia some e o texto usa toda a larg útil do grid */
   .video-and-text--missing-media.media-with-content .media-block--video-text-empty {
     display: none;
   }

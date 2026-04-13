@@ -1,14 +1,3 @@
-{%- doc -%}
-  This snippet is used to render a product card.
-  It is used in the product block,featured product block, and the product card block.
-
-  @param {product} product_resource - The product to render
-  @param {boolean} [show_unit_price] - Whether to show the unit price
-  @param {boolean} [show_sale_price_first] - Whether to show the sale price first
-  @param {boolean} [hide_merchant_installments] - Se true, não renderiza a linha de parcelas da loja (ex.: sticky add to cart).
-  @param {boolean} [hide_pix_price] - Se true, não renderiza a linha de preço PIX (ex.: sticky add to cart).
-{%- enddoc -%}
-
 {%- liquid
   assign show_unit_price = show_unit_price | default: false
   assign show_sale_price_first = show_sale_price_first | default: false
@@ -25,13 +14,10 @@
     assign price = 1999
   endif
 
-  # Check if variant has volume pricing
   assign has_volume_pricing = null
   assign price_min = null
   assign price_max = null
 
-  # For product cards (collection/search pages), calculate min/max across all variants
-  # For product pages, only use the selected variant's pricing
   assign is_product_card = false
   if template.name != 'product'
     assign is_product_card = true
@@ -47,7 +33,6 @@
       assign installments_base_cents = product_resource.price_min
     endif
   else
-    # Product page: only use selected variant's pricing
     if selected_variant.quantity_price_breaks.size > 0
       assign has_volume_pricing = true
       assign price_min = selected_variant.quantity_price_breaks.last.price
@@ -56,7 +41,6 @@
     endif
   endif
 
-  # Determine if currency code should be shown
   assign use_currency = false
   if product.handle == product_resource.handle
     if settings.currency_code_enabled_product_pages
@@ -66,7 +50,6 @@
     assign use_currency = true
   endif
 
-  # Format all prices
   if use_currency
     assign price = price | money_with_currency
     assign compare_at_price = compare_at_price | money_with_currency
@@ -82,7 +65,6 @@
 
 <div ref="priceContainer">
   {% if has_volume_pricing %}
-    {% comment %} Volume pricing display {% endcomment %}
     {% if show_compare_price %}
       <span role="group">
         <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
@@ -94,7 +76,6 @@
       <span class="price">{{ price_min }} - {{ price_max }}</span>
     </span>
   {% else %}
-    {% comment %} Standard pricing display {% endcomment %}
     {% if show_sale_price_first == false and show_compare_price %}
       <span role="group">
         <span class="visually-hidden">{{ 'content.price_regular' | t }}&nbsp;</span>
@@ -132,10 +113,6 @@
 {%- if has_volume_pricing -%}
   <small ref="volumePricingNote" class="volume-pricing-note">{{ 'content.volume_pricing_available' | t }}</small>
 {%- endif -%}
-{% comment %}
-  Parcelamento informativo (tema): cards, PDP e vitrines que usam este snippet.
-  ref installmentsDisplay é sincronizado em product-price.js ao mudar variante.
-{% endcomment %}
 {% if settings.show_merchant_installments and product_resource and hide_merchant_installments != true %}
   {% render 'installments-display',
     price_cents: installments_base_cents,
@@ -143,9 +120,6 @@
     context: 'product'
   %}
 {% endif %}
-{% comment %}
-  Preço PIX informativo: mesma base em centavos que parcelas; ref pixPriceDisplay em product-price.js.
-{% endcomment %}
 {% if settings.pix_discount_percent > 0 and product_resource and hide_pix_price != true %}
   {% render 'pix-price-display',
     price_cents: installments_base_cents,

@@ -1,11 +1,3 @@
-{%- doc -%}
-  Parcelamento apenas informativo (UX na vitrine). Não define juros nem parcelamento real no checkout.
-
-  @param {number} price_cents - Total em centavos (ex.: variant.price, product.price_min, cart.total_price).
-  @param {string} [context] - 'product' (usa ref installmentsDisplay para morph na troca de variante) ou 'cart' (elemento custom + Ajax).
-  @param {variant} [variant] - Se passado e indisponível, não exibe.
-{%- enddoc -%}
-
 {%- liquid
   assign show_feature = settings.show_merchant_installments
   assign max_p = settings.installments_max | default: 12 | plus: 0

@@ -1,14 +1,3 @@
-{%- doc -%}
-  Produtos relacionados do post, a partir do metacampo do artigo:
-  `article.metafields.custom.related_products` (tipo: lista de referência de produto, máx. 4 no Admin).
-
-  Criar em: Configurações > Dados personalizados > Artigos do blog > Adicionar definição
-  - Nome: Produtos relacionados
-  - Namespace e chave: custom.related_products
-  - Tipo: Lista de referências de produto
-  - Validação: máximo 4 itens (se disponível na sua loja)
-{%- enddoc -%}
-
 {% liquid
   assign mf = article.metafields.custom.related_products
   assign related_raw = mf.value

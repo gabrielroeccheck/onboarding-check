@@ -1,8 +1,3 @@
-{%- doc -%}
-  Cross-sell “Compre junto”: usa o metacampo custom.product_recommended (produto referência).
-  Se vazio, tenta custom.complementary_product para compatibilidade com configurações antigas.
-{%- enddoc -%}
-
 {% liquid
   assign product = closest.product
   if request.visual_preview_mode and product == blank

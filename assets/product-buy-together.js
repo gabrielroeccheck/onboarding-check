@@ -2,23 +2,14 @@ import { Component } from '@theme/component';
 import { fetchConfig } from '@theme/utilities';
 import { CartAddEvent, CartErrorEvent } from '@theme/events';
 
-/**
- * Adiciona o variant atual do formulário da PDP + o variant complementar em um único POST /cart/add.js.
- * Dispara os mesmos eventos de carrinho do tema para atualizar drawer e contador.
- */
 class ProductBuyTogether extends Component {
   requiredRefs = ['submitButton', 'buttonLabel', 'errorMessage'];
 
-  /** @type {boolean} */
   #busy = false;
 
-  /**
-   * @returns {HTMLFormElement | null}
-   */
   #getProductForm() {
     const section = this.closest('.shopify-section');
     const sectionId = this.dataset.sectionId;
-    /** @type {HTMLElement | null} */
     let root = section;
     if (!root && sectionId) {
       root = document.querySelector(`.shopify-section[id*="shopify-section-template"][id*="${sectionId}"]`);
@@ -30,10 +21,6 @@ class ProductBuyTogether extends Component {
     );
   }
 
-  /**
-   * Coleta IDs de secção do carrinho (drawer / página) como o product-form.js.
-   * @returns {string}
-   */
   #getCartSectionIds() {
     const components = document.querySelectorAll('cart-items-component[data-section-id]');
     const ids = new Set();
@@ -45,11 +32,6 @@ class ProductBuyTogether extends Component {
     return Array.from(ids).join(',');
   }
 
-  /**
-   * Lê plano de assinatura do formulário, se existir (apps / temas com selling plans).
-   * @param {HTMLFormElement} form
-   * @returns {number | undefined}
-   */
   #getSellingPlanId(form) {
     const radio = form.querySelector('input[name="selling_plan"]:checked');
     if (radio?.value) {
@@ -100,7 +82,6 @@ class ProductBuyTogether extends Component {
     }
 
     const sections = this.#getCartSectionIds();
-    /** @type {Record<string, unknown>} */
     const payload = { items };
     if (sections) {
       payload.sections = sections;
@@ -147,15 +128,11 @@ class ProductBuyTogether extends Component {
     }
   };
 
-  /**
-   * @param {string} text
-   */
   #showError(text) {
     const { errorMessage } = this.refs;
     errorMessage.textContent = text;
     errorMessage.classList.remove('hidden');
   }
-
 }
 
 if (!customElements.get('product-buy-together')) {
