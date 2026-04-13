@@ -13,11 +13,13 @@
   assign block_settings = block.settings
   assign image_sizes = '(min-width: 750px) 50vw, 100vw'
 
-  # Check if product has badges and determine position
+  assign has_custom_product_labels = has_custom_product_labels | default: false
+
+  # Check if product has badges and determine position (nativas ou metaobject)
   assign has_badges = false
   assign badge_position = null
   if product != blank
-    if product.available == false or product.compare_at_price > product.price
+    if has_custom_product_labels or product.available == false or product.compare_at_price > product.price
       assign has_badges = true
       assign badge_position = settings.badge_position
     endif

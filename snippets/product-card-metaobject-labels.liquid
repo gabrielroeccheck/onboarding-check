@@ -1,0 +1,101 @@
+{%- doc -%}
+  Etiquetas do card via lista de metaobjects no produto.
+  Metacampos suportados (primeiro preenchido vence):
+  - custom.custom_label (lista → teu setup “Custom Label”)
+  - custom.product_labels (lista → compatibilidade com versão anterior)
+  Campos no metaobject: title (texto); background_color / text_color como tipo Cor Shopify ou texto hex.
+{%- enddoc -%}
+
+{% liquid
+  assign max = max_labels | default: settings.product_card_metaobject_labels_max | default: 3
+  assign list_ref = product.metafields.custom.custom_label.value
+  if list_ref == blank
+    assign list_ref = product.metafields.custom.product_labels.value
+  endif
+  assign shown = 0
+%}
+
+{% if list_ref != blank %}
+  {% for mo in list_ref %}
+    {% if shown >= max %}
+      {% break %}
+    {% endif %}
+
+    {% liquid
+      assign label_title = mo.title.value | strip
+      if label_title == blank
+        assign label_title = mo.title | strip
+      endif
+      if label_title == blank
+        continue
+      endif
+
+      comment
+        Cores: tipo "color" no Admin → objeto com .rgb ("r g b") ou .value.rgb.
+        Alternativa: texto #hex ou hex sem #.
+      endcomment
+
+      assign safe_bg = ''
+      assign bg_src = mo.background_color
+      if bg_src == blank
+        assign bg_src = mo.background_colour
+      endif
+      if bg_src != blank
+        assign bg_obj = bg_src.value | default: bg_src
+        if bg_obj.rgb != blank
+          assign safe_bg = 'rgb(' | append: bg_obj.rgb | append: ')'
+        else
+          assign raw_bg = bg_obj | append: '' | strip
+          assign hex_bg = raw_bg | remove: '#' | downcase
+          if hex_bg.size == 3 or hex_bg.size == 6
+            unless raw_bg contains ';' or raw_bg contains '}' or raw_bg contains 'url(' or raw_bg contains 'expression'
+              if raw_bg contains '#'
+                assign safe_bg = raw_bg
+              else
+                assign safe_bg = '#' | append: hex_bg
+              endif
+            endunless
+          endif
+        endif
+      endif
+
+      assign safe_fg = ''
+      assign fg_src = mo.text_color
+      if fg_src == blank
+        assign fg_src = mo.text_colour
+      endif
+      if fg_src != blank
+        assign fg_obj = fg_src.value | default: fg_src
+        if fg_obj.rgb != blank
+          assign safe_fg = 'rgb(' | append: fg_obj.rgb | append: ')'
+        else
+          assign raw_fg = fg_obj | append: '' | strip
+          assign hex_fg = raw_fg | remove: '#' | downcase
+          if hex_fg.size == 3 or hex_fg.size == 6
+            unless raw_fg contains ';' or raw_fg contains '}' or raw_fg contains 'url(' or raw_fg contains 'expression'
+              if raw_fg contains '#'
+                assign safe_fg = raw_fg
+              else
+                assign safe_fg = '#' | append: hex_fg
+              endif
+            endunless
+          endif
+        endif
+      endif
+
+      assign shown = shown | plus: 1
+    %}
+
+    <div
+      class="product-badges__badge product-badges__badge--rectangle product-badges__badge--metaobject"
+      {% if safe_bg != blank or safe_fg != blank %}
+        style="
+          {% if safe_bg != blank %}--pcb-bg: {{ safe_bg }}; background-color: var(--pcb-bg) !important;{% endif %}
+          {% if safe_fg != blank %}--pcb-fg: {{ safe_fg }}; color: var(--pcb-fg) !important;{% endif %}
+        "
+      {% endif %}
+    >
+      {{- label_title | escape -}}
+    </div>
+  {% endfor %}
+{% endif %}

@@ -1522,6 +1522,23 @@
           }
         ],
         "default": "none"
+      },
+      {
+        "type": "header",
+        "content": "t:content.product_card_metaobject_labels_header"
+      },
+      {
+        "type": "paragraph",
+        "content": "t:content.product_card_metaobject_labels_help"
+      },
+      {
+        "type": "range",
+        "id": "product_card_metaobject_labels_max",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "label": "t:settings.product_card_metaobject_labels_max",
+        "default": 3
       }
     ]
   },

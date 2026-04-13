@@ -352,6 +352,15 @@
     data-presentation="{{ media_presentation }}"
     {{ block_shopify_attributes }}
   >
+    {% if closest.product != blank %}
+      {% render 'product-discount-badge',
+        product: closest.product,
+        variant: closest.product.selected_or_first_available_variant,
+        context: 'pdp',
+        sale_color_scheme: settings.badge_sale_color_scheme,
+        badge_strip: true
+      %}
+    {% endif %}
     {% capture slides %}
       {% for media in sorted_media %}
         {% capture children %}
@@ -854,5 +863,64 @@
     to {
       opacity: 0;
     }
+  }
+
+  /* Etiqueta % OFF na PDP (mesma lógica visual do card) */
+  media-gallery {
+    position: relative;
+  }
+
+  .media-gallery__product-badges {
+    --badge-inset: max(var(--padding-xs), calc((var(--border-radius) + var(--padding-xs)) * (1 - cos(45deg))));
+
+    position: absolute;
+    z-index: var(--layer-flat);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    max-width: min(100%, 11.5rem);
+    pointer-events: none;
+  }
+
+  .media-gallery__product-badges.product-badges--top-right {
+    align-items: flex-end;
+  }
+
+  .media-gallery__product-badges .product-badges__badge {
+    --badge-font-size: var(--font-size--xs);
+
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    font-size: var(--badge-font-size);
+    font-family: var(--badge-font-family);
+    font-weight: var(--badge-font-weight);
+    text-transform: var(--badge-text-transform);
+    border-radius: var(--badge-border-radius);
+  }
+
+  .media-gallery__product-badges .product-badges__badge--rectangle {
+    padding-block: var(--badge-rectangle-padding-block);
+    padding-inline: var(--badge-rectangle-padding-inline);
+  }
+
+  .media-gallery__product-badges.product-badges--bottom-left {
+    bottom: calc(var(--badge-inset) + var(--padding-block-start, 0px));
+    left: calc(var(--badge-inset) + var(--padding-inline-start, 0px));
+  }
+
+  .media-gallery__product-badges.product-badges--top-left {
+    top: calc(var(--badge-inset) + var(--padding-block-start, 0px));
+    left: calc(var(--badge-inset) + var(--padding-inline-start, 0px));
+  }
+
+  .media-gallery__product-badges.product-badges--top-right {
+    top: calc(var(--badge-inset) + var(--padding-block-start, 0px));
+    right: calc(var(--badge-inset) + var(--padding-inline-end, 0px));
   }
 {% endstylesheet %}

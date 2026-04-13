@@ -164,6 +164,7 @@
     "taxes_included": "Tributos incluídos.",
     "product_badge_sold_out": "Esgotado",
     "product_badge_sale": "Promoção",
+    "product_badge_percent_off": "{{ percent }}% OFF",
     "search_input_label": "Pesquisa",
     "search_input_placeholder": "Pesquisa",
     "search_results": "Resultados da pesquisa",
@@ -330,7 +331,12 @@
       "quantity_maximum": "Máximo de {{ maximum }}",
       "in_cart": "no carrinho",
       "default_title": "Título padrão",
-      "sticky_add_to_cart": "Barra de adição rápida ao carrinho"
+      "sticky_add_to_cart": "Barra de adição rápida ao carrinho",
+      "buy_together_kicker": "Combina com",
+      "buy_together_add_both": "Adicionar os 2 itens ao carrinho",
+      "buy_together_adding": "Adicionando…",
+      "buy_together_error": "Não foi possível adicionar. Tente novamente.",
+      "buy_together_select_variant": "Escolha uma opção do produto disponível primeiro."
     }
   },
   "fields": {

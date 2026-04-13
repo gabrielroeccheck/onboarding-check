@@ -159,6 +159,11 @@
   fetchpriority="low"
 ></script>
 <script
+  src="{{ 'product-discount-badge.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
   src="{{ 'product-card.js' | asset_url }}"
   type="module"
   fetchpriority="low"
@@ -283,6 +288,11 @@
     type="module"
     fetchpriority="low"
   ></script>
+  <script
+    src="{{ 'product-buy-together.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
   <script type="module">
     import { RecentlyViewed } from '@theme/recently-viewed-products';
     RecentlyViewed.addProduct('{{ product.id }}');
@@ -312,6 +322,10 @@
       recipient_form_error: `{{ 'content.recipient_form_error' | t }}`,
       items_added_to_cart_one: `{{ 'content.items_added_to_cart.one' | t }}`,
       items_added_to_cart_other: `{{ 'content.items_added_to_cart.other' | t }}`,
+      buy_together_error: `{{ 'products.product.buy_together_error' | t }}`,
+      buy_together_select_variant: `{{ 'products.product.buy_together_select_variant' | t }}`,
+      product_badge_percent_off_js: {{ 'content.product_badge_percent_off' | t: percent: '__NUM__', value: '__NUM__' | json }},
+      product_badge_sale_fallback: {{ 'content.product_badge_sale' | t | json }},
     },
     routes: {
       cart_add_url: '{{ routes.cart_add_url | append: '.js' }}',

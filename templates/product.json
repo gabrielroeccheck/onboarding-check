@@ -217,6 +217,18 @@
               },
               "block_order": []
             },
+            "product_buy_together_main": {
+              "type": "product-buy-together",
+              "name": "t:names.product_buy_together",
+              "settings": {
+                "heading": "Leve junto e economize",
+                "padding-block-start": 16,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "Product description",
@@ -249,6 +261,7 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "product_buy_together_main",
             "text_aEtTtq"
           ]
         }

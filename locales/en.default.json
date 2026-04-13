@@ -237,6 +237,7 @@
     "product_total": "Product total",
     "product_badge_sold_out": "Sold out",
     "product_badge_sale": "Sale",
+    "product_badge_percent_off": "{{ percent }}% OFF",
     "product_card_placeholder": "Product title",
     "placeholder_image": "Placeholder image",
     "quantity": "Quantity",
@@ -365,7 +366,12 @@
       "quantity_maximum": "Maximum of {{ maximum }}",
       "in_cart": "in cart",
       "default_title": "Default Title",
-      "sticky_add_to_cart": "Quick add to cart bar"
+      "sticky_add_to_cart": "Quick add to cart bar",
+      "buy_together_kicker": "Pairs well with",
+      "buy_together_add_both": "Add both items to cart",
+      "buy_together_adding": "Adding…",
+      "buy_together_error": "We couldn’t add these items. Please try again.",
+      "buy_together_select_variant": "Choose an available product option first."
     }
   }
 }

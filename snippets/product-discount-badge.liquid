@@ -1,0 +1,64 @@
+{%- doc -%}
+  Etiqueta de promoção com % OFF (variante), reutilizável no card e na PDP.
+  @param {object} product
+  @param {object} [variant] - default: selected_or_first_available_variant
+  @param {string} [context] - 'card' | 'pdp'
+  @param {string} sale_color_scheme - valor de settings.badge_sale_color_scheme
+  @param {boolean} [badge_strip] - true: envolve em .product-badges (galeria PDP)
+{%- enddoc -%}
+
+{% liquid
+  assign v = variant | default: product.selected_or_first_available_variant
+  assign cap = v.compare_at_price
+  assign pr = v.price
+  assign pct = blank
+
+  if cap != blank and pr != blank and cap > 0 and cap > pr
+    assign diff = cap | minus: pr | times: 100
+    assign half_cap = cap | divided_by: 2
+    assign numerator = diff | plus: half_cap
+    assign pct = numerator | divided_by: cap
+    if pct <= 0
+      assign pct = blank
+    endif
+  endif
+
+  assign product_level_sale = false
+  if product.compare_at_price > product.price
+    assign product_level_sale = true
+  endif
+%}
+
+{% if badge_strip %}
+  {% if pct != blank %}
+    <div
+      class="product-badges product-badges--{{ settings.badge_position }} media-gallery__product-badges"
+      style="
+        --badge-border-radius: {{ settings.badge_corner_radius }}px;
+        --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
+      "
+    >
+      <div class="product-badges__badge product-badges__badge--rectangle color-{{ sale_color_scheme }}">
+        <product-discount-badge
+          style="display: contents"
+          data-context="pdp"
+          data-product-level-sale="{% if product_level_sale %}true{% else %}false{% endif %}"
+        >
+          {{- 'content.product_badge_percent_off' | t: percent: pct, value: pct -}}
+        </product-discount-badge>
+      </div>
+    </div>
+  {% endif %}
+{% else %}
+  {% if pct != blank %}
+    <product-discount-badge
+      style="display: contents"
+      data-context="{{ context | default: 'card' }}"
+      data-product-level-sale="{% if product_level_sale %}true{% else %}false{% endif %}"
+    >
+      {{- 'content.product_badge_percent_off' | t: percent: pct, value: pct -}}
+    </product-discount-badge>
+  {% else %}
+    {{- 'content.product_badge_sale' | t -}}
+  {% endif %}
+{% endif %}
