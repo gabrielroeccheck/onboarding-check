@@ -1,0 +1,49 @@
+{%- assign max_installments = settings.max_installments | default: 12 -%}
+{%- assign min_installment_value = settings.min_installment_value | default: 10 -%}
+
+{%- if product != blank -%}
+  {%- if product.selected_or_first_available_variant != blank -%}
+    {%- assign preco_base = product.selected_or_first_available_variant.price -%}
+  {%- else -%}
+    {%- assign preco_base = product.price -%}
+  {%- endif -%}
+{%- elsif cart != blank -%}
+  {%- assign is_cart = true -%}
+  {%- assign preco_base = cart.total_price -%}
+{%- else -%}
+  {%- assign preco_base = 0 -%}
+{%- endif -%}
+
+{%- assign installments = 0 -%}
+
+{%- for i in (1..max_installments) -%}
+  {%- assign installment_value = preco_base | divided_by: i -%}
+
+  {%- assign installment_value_check = installment_value | divided_by: 100 | round: 2 -%}
+
+  {%- if installment_value_check >= min_installment_value -%}
+    {%- assign installments = i -%}
+  {%- else -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if installments > 0 -%}
+  {%- assign installment_value = preco_base | divided_by: installments -%}
+  {%- assign formatted_value = installment_value | money -%}
+  <p class="installment-info {% if is_cart %}installment-price--cart{% endif %}">
+    {{ 'installments.text' | t: count: installments, value: formatted_value }}
+  </p>
+{%- endif -%}
+
+<style>
+  .installment-info {
+      font-size: 14px;
+      margin: 4px 0 0 0;
+      color: #121212;
+  }
+
+  .installment-price--cart {
+      text-align: right;
+  }
+</style>

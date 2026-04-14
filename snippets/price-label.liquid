@@ -1,0 +1,15 @@
+{% assign compare_price = product.compare_at_price %}
+{% assign current_price = product.price %}
+
+{% if compare_price > current_price %}
+  {% assign discount_amount = compare_price | minus: current_price %}
+  {% assign discount_percent = discount_amount | times: 100.0 | divided_by: compare_price %}
+  {% assign discount_rounded = discount_percent | round %}
+
+  <span
+    id="DiscountBadge-{{ section_id }}-{{ product.id }}"
+    class="badge badge--bottom-left color-{{ settings.sale_badge_color_scheme }}"
+  >
+    {{ discount_rounded }}% OFF
+  </span>
+{% endif %}

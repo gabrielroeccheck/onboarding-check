@@ -1,0 +1,278 @@
+{{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'component-video-with-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="page-width">
+    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_video_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
+        <!-- Video block -->
+        <div class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_video_width }} grid__item">
+          <div
+            class="image-with-text__media video-with-text__media global-media-settings gradient color-{{ section.settings.color_scheme }}"
+          >
+            {% if section.settings.video_url contains 'youtube.com' or section.settings.video_url contains 'youtu.be' %}
+              {% assign youtube_id = section.settings.video_url
+                | replace: 'https://youtu.be/', ''
+                | replace: 'https://www.youtube.com/watch?v=', ''
+                | replace: 'https://youtube.com/watch?v=', ''
+                | split: '&'
+                | first
+              %}
+              <iframe
+                src="https://www.youtube.com/embed/{{ youtube_id }}"
+                frameborder="0"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            {% elsif section.settings.video_url contains 'vimeo.com' %}
+              {% assign vimeo_id = section.settings.video_url | replace: 'https://vimeo.com/', '' %}
+              <iframe
+                src="https://player.vimeo.com/video/{{ vimeo_id }}"
+                frameborder="0"
+                allow="autoplay; fullscreen"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            {% else %}
+              <video
+                src="{{ section.settings.video_url }}"
+                autoplay="{{ section.settings.autoplay }}"
+                muted
+                loop="{{ section.settings.loop }}"
+                playsinline
+                controls
+              ></video>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Text block -->
+        <div class="image-with-text__text-item grid__item">
+          <div
+            id="VideoWithText--{{ section.id }}"
+            class="image-with-text__content image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-{{ section.settings.mobile_content_alignment }} content-container gradient color-{{ section.settings.color_scheme }}"
+          >
+            {%- for block in section.blocks -%}
+              {% case block.type %}
+                {% when 'heading' %}
+                  <h2
+                    class="image-with-text__heading inline-richtext {{ block.settings.heading_size }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.heading }}
+                  </h2>
+                {% when 'caption' %}
+                  <p
+                    class="image-with-text__text image-with-text__text--caption {{ block.settings.text_style }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {{ block.settings.caption | escape }}
+                  </p>
+                {% when 'text' %}
+                  <div class="image-with-text__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+                    {{ block.settings.text }}
+                  </div>
+                {% when 'button' %}
+                  {% if block.settings.button_label != blank %}
+                    <a
+                      href="{{ block.settings.button_link }}"
+                      class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}"
+                      {{ block.shopify_attributes }}
+                    >
+                      {{ block.settings.button_label | escape }}
+                    </a>
+                  {% endif %}
+              {% endcase %}
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Vídeo com texto",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "URL do vídeo (MP4, YouTube ou Vimeo)",
+      "default": "https://cdn.shopify.com/videos/c/o/v/exemplo.mp4"
+    },
+    {
+      "type": "select",
+      "id": "desktop_video_width",
+      "options": [
+        { "value": "small", "label": "Pequeno" },
+        { "value": "medium", "label": "Médio" },
+        { "value": "large", "label": "Grande" }
+      ],
+      "default": "medium",
+      "label": "Largura do vídeo (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": true,
+      "label": "Reproduzir automaticamente"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "default": true,
+      "label": "Repetir vídeo"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        { "value": "video_first", "label": "Vídeo à esquerda" },
+        { "value": "text_first", "label": "Texto à esquerda" }
+      ],
+      "default": "video_first",
+      "label": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_alignment",
+      "options": [
+        { "value": "left", "label": "Esquerda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Direita" }
+      ],
+      "default": "left",
+      "label": "Alinhamento do conteúdo (desktop)"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_alignment",
+      "options": [
+        { "value": "left", "label": "Esquerda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Direita" }
+      ],
+      "default": "center",
+      "label": "Alinhamento do conteúdo (mobile)"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "Esquema de cores da seção",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Esquema de cores do conteúdo",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaçamento superior",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaçamento inferior",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Título",
+      "settings": [
+        { "type": "inline_richtext", "id": "heading", "default": "Título do vídeo", "label": "Título" },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            { "value": "h2", "label": "Médio" },
+            { "value": "h1", "label": "Grande" },
+            { "value": "hxl", "label": "Extra grande" }
+          ],
+          "default": "h1",
+          "label": "Tamanho do título"
+        }
+      ]
+    },
+    {
+      "type": "caption",
+      "name": "Legenda",
+      "settings": [
+        { "type": "text", "id": "caption", "label": "Texto da legenda" },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            { "value": "subtitle", "label": "Subtítulo" },
+            { "value": "caption-with-letter-spacing", "label": "Caixa alta" }
+          ],
+          "default": "caption-with-letter-spacing",
+          "label": "Estilo do texto"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Texto",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Conteúdo do texto" },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            { "value": "body", "label": "Normal" },
+            { "value": "subtitle", "label": "Subtítulo" }
+          ],
+          "default": "body",
+          "label": "Estilo do texto"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Botão",
+      "settings": [
+        { "type": "text", "id": "button_label", "label": "Texto do botão" },
+        { "type": "url", "id": "button_link", "label": "Link do botão" },
+        { "type": "checkbox", "id": "button_style_secondary", "label": "Botão secundário" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vídeo com texto",
+      "blocks": [{ "type": "heading" }, { "type": "text" }, { "type": "button" }]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+.cart-coupon {
+    margin-top: 10px;
+}
+
+.cart-coupon__input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.cart-coupon__input-wrapper input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.cart-coupon__input-wrapper button {
+    font-size: 16px;
+    padding: 0 20px;
+}
+
+.cart-coupon__message {
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+.applied-coupons-list {
+    padding: 0 0 0 10px;
+}
+
+.applied-coupons-list li {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 0 8px 0;
+}
+
+.applied-coupons-list li button {
+    background-color:rgb(255, 229, 229);
+    border: none;
+    padding: 3px 10px;
+}
+
+.applied-coupons-list li button:hover {
+    cursor: pointer;
+    color:rgb(196, 42, 42);
+}
+
+.cart-coupon__message {
+    display: none;
+}

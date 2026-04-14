@@ -1,0 +1,88 @@
+{% assign recommended = product.metafields.custom.product_recommended.value %}
+{{ 'product-recommended.css' | asset_url | stylesheet_tag }}
+
+{% if recommended %}
+  <section class="product_recommended-container">
+    <h2 class="product_recommended__title">{{ 'product_recommended.title' | t }}</h2>
+
+    <a class="product_recommended-item" href="{{ recommended.url }}">
+      <img
+        src="{{ recommended.featured_image | image_url: width: 400 }}"
+        alt="{{ recommended.title }}"
+        width="{{ recommended.featured_image.width }}"
+        height="{{ recommended.featured_image.height }}"
+        loading="lazy"
+        class="product_recommended-image"
+      >
+      <div class="product_recommended__info">
+        <h3 class="product_recommended__title-product card__heading h5">{{ recommended.title }}</h3>
+        {% render 'price', product: recommended, price_class: '', show_compare_at_price: true %}
+        {% render 'pix-discount', product: recommended %}
+        {% render 'installments', product: recommended %}
+      </div>
+    </a>
+
+    <div class="buy-container">
+      <p>{{ 'product_recommended.cta' | t }}</p>
+      <button
+        id="add-both-to-cart"
+        class="product_recommended__button shopify-payment-button__button shopify-payment-button__button--unbranded"
+      >
+        {{ 'product_recommended.button' | t }}
+      </button>
+
+      <p id="cart-message" class="cart-message"></p>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const addButton = document.getElementById('add-both-to-cart');
+      const message = document.getElementById('cart-message');
+      if (!addButton || !message) return;
+
+      {% if recommended and product.variants.first and recommended.variants.first %}
+        const mainInStock = {{ product.variants.first.available | json }};
+        const recInStock = {{ recommended.variants.first.available | json }};
+        const mainVariantId = {{ product.variants.first.id | json }};
+        const recVariantId = {{ recommended.variants.first.id | json }};
+      {% else %}
+        const mainInStock = false;
+        const recInStock = false;
+        const mainVariantId = null;
+        const recVariantId = null;
+      {% endif %}
+
+      addButton.addEventListener('click', function() {
+        const items = [
+          { id: mainVariantId, quantity: 1 },
+          { id: recVariantId, quantity: 1 }
+        ];
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items })
+        })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => { throw err; }).catch(() => { throw new Error('fetch_failed'); });
+          }
+          return response.json();
+        })
+        .then(data => {
+          message.textContent = "{{ 'product_recommended.success' | t }}";
+          message.classList.remove('error');
+          message.classList.add('success');
+          message.style.display = 'block';
+        })
+        .catch(error => {
+          message.textContent = "{{ 'product_recommended.error' | t }}";
+          message.classList.remove('success');
+          message.classList.add('error');
+          message.style.display = 'block';
+        });
+      });
+    });
+  </script>
+{% endif %}

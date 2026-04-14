@@ -1,0 +1,43 @@
+{{ 'product-recommended.css' | asset_url | stylesheet_tag }}
+
+<section class="related-products-blog container">
+    <h2 class="product_recommended__title">{{ 'related_products.title' | t }}</h2>
+  <div class="related-products-blog__grid">
+      {% for product in products %}
+        <a class="product_recommended-item" href="{{ recommended.url }}">
+          <img
+            src="{{ product.featured_image | image_url: width: 400 }}"
+            alt="{{ product.title }}"
+            width="{{ product.featured_image.width }}"
+            height="{{ product.featured_image.height }}"
+            loading="lazy"
+            class="product_recommended-image"
+          >
+          <div class="product_recommended__info">
+            <h3 class="product_recommended__title-product card__heading h5">{{ product.title }}</h3>
+            {% render 'price', product: product, price_class: '', show_compare_at_price: true %}
+            {% render 'pix-discount', product: product %}
+            {% render 'installments', product: product %}
+          </div>
+        </a>
+      {% endfor %}
+  </div>
+</section>
+
+<style>
+  .related-products-blog__grid {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  @media (min-width: 768px)  {
+    .related-products-blog__grid {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+    }
+  }
+</style>

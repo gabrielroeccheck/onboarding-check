@@ -1,0 +1,12 @@
+{% assign labels = product.metafields.custom.custom_label.value %}
+
+{% if labels %}
+  {% for label in labels %}
+    <span
+      class="badge"
+      style="background-color: {{ label.background_color | default: '#000' }}; color: {{ label.text_color | default: '#fff' }};"
+    >
+      {{ label.title }}
+    </span>
+  {% endfor %}
+{% endif %}

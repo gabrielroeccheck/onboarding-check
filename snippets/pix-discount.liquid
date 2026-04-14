@@ -1,0 +1,34 @@
+{%- assign discount_percentage = settings.pix_discount_percentage | default: 5 -%}
+
+{%- if product != blank -%}
+  {%- if product.selected_or_first_available_variant != blank -%}
+    {%- assign preco_base = product.selected_or_first_available_variant.price -%}
+  {%- else -%}
+    {%- assign preco_base = product.price -%}
+  {%- endif -%}
+{%- elsif cart != blank -%}
+  {%- assign is_cart = true -%}
+  {%- assign preco_base = cart.total_price -%}
+{%- else -%}
+  {%- assign preco_base = 0 -%}
+{%- endif -%}
+
+{%- assign desconto_valor = preco_base | times: discount_percentage | divided_by: 100 -%}
+{%- assign preco_pix = preco_base | minus: desconto_valor -%}
+{%- assign preco_pix_formatado = preco_pix | money -%}
+
+<p class="pix-price {% if is_cart %}pix-price--cart{% endif %}">
+  {{ 'pix.text' | t: value: preco_pix_formatado, discount: discount_percentage }}
+</p>
+
+<style>
+.pix-price {
+    font-size: 14px;
+    color: rgb(34, 154, 70);
+    margin: 4px 0 0 0;
+}
+
+.pix-price--cart {
+    text-align: right;
+}
+</style>

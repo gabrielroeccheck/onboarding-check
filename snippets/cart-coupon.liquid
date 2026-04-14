@@ -1,0 +1,23 @@
+{{ 'cart-coupon.css' | asset_url | stylesheet_tag }}
+
+<div class="cart-coupon">
+  <label for="cart-coupon-input">{{ 'cart.coupon_enter_code' | t }}</label>
+
+  <div class="cart-coupon__input-wrapper">
+    <input type="text" id="cart-coupon-input" placeholder="{{ 'cart.code' | t }}">
+    <button id="cart-coupon-apply" class="button">{{ 'cart.apply_coupon' | t }}</button>
+  </div>
+
+  <p
+    id="cart-coupon-message"
+    style="display:none"
+    data-applied-text="{{ 'cart.coupon_applied' | t }}"
+    data-removed-text="{{ 'cart.coupon_removed' | t }}"
+    data-invalid-text="{{ 'cart.coupon_invalid' | t }}"
+    data-already-text="{{ 'cart.coupon_already_applied' | t }}"
+  ></p>
+
+  <div class="applied-coupons-container" id="applied-coupons-container">
+    <ul id="applied-coupons-list" class="applied-coupons-list"></ul>
+  </div>
+</div>
